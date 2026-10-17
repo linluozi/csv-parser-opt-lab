@@ -1,0 +1,41 @@
+--- a/index.js	2026-10-17 22:48:37.438592000 +0800
++++ b/index.js	2026-10-17 22:48:37.440057900 +0800
+@@ -1,3 +1,8 @@
++// Optimized derivative of mafintosh/csv-parser v3.2.1.
++// Upstream copyright (c) 2014 Mathias Buus; distributed under the included MIT License.
++// Modification: avoid per-row index-array allocation for headers:false and replace
++// per-cell Array.reduce callback execution with a direct loop in writeRow().
++
+ const { Transform } = require('stream')
+ 
+ const [cr] = Buffer.from('\r')
+@@ -203,18 +208,20 @@
+   }
+ 
+   writeRow (cells, byteOffset) {
+-    const headers = (this.headers === false) ? cells.map((value, index) => index) : this.headers
+-
+-    const row = cells.reduce((o, cell, index) => {
+-      const header = headers[index]
+-      if (header === null) return o // skip columns
++    // OPTIMIZATION: when headers are disabled, derive numeric keys inline instead
++    // of allocating a fresh index array for every row. Also avoid reduce callbacks.
++    const headers = this.headers === false ? null : this.headers
++
++    const row = {}
++    for (let index = 0; index < cells.length; index++) {
++      const header = headers === null ? index : headers[index]
++      if (header === null) continue // skip columns
+       if (header !== undefined) {
+-        o[header] = cell
++        row[header] = cells[index]
+       } else {
+-        o[`_${index}`] = cell
++        row[`_${index}`] = cells[index]
+       }
+-      return o
+-    }, {})
++    }
+ 
+     if (this.options.outputByteOffset) {
+       this.push({ row, byteOffset })

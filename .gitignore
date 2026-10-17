@@ -1,0 +1,5 @@
+node_modules/
+*.log
+docs/img/__pycache__/
+__pycache__/
+audit/poison/

@@ -1,0 +1,15 @@
+{
+  "name": "csv-parser-writerow-audit",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Audited optimization study: writeRow() in mafintosh/csv-parser 3.2.1",
+  "license": "MIT",
+  "main": "optimized/index.js",
+  "scripts": {
+    "test": "node test/verify.js",
+    "bench": "node benchmark.js"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
