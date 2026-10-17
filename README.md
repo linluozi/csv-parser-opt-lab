@@ -8,6 +8,18 @@ That claim does not survive measurement — see [`docs/FINDINGS.md`](docs/FINDIN
 The corrected numbers, the harness that produces them, and the reasoning that
 overturns the original conclusion are all here.
 
+![The reported 2.73% is one sample from a distribution centred below zero](docs/img/01-claim-vs-distribution.png)
+
+Re-running the same script 12 times in independent processes gives a median of
+**−2.28%**, with 7 of 12 runs negative and a range of −25.3% … +17.4%. The claimed
+number is one draw from that spread.
+
+![writeRow is 9.6% of the parse — a 2.73% end-to-end win needs it 1.40x faster, not 1.03x](docs/img/02-ceiling.png)
+
+Hollowing out `writeRow` shows it accounts for only ~10% of parse time. That caps the
+end-to-end gain far below the claim, and no amount of re-measuring changes the
+arithmetic.
+
 ## Layout
 
 ```

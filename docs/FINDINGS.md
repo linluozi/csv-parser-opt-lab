@@ -11,6 +11,8 @@ The first version of this study reported **2.73%** lower end-to-end elapsed time
 (180,000 rows × 8 columns, normal header row) and **3.97%** for `headers: false`.
 Re-running the identical script 12 times in independent processes:
 
+![12 independent runs of the same benchmark](img/01-claim-vs-distribution.png)
+
 ```
 run  1: pct=-25.32      run  7: pct= -3.88
 run  2: pct=-22.82      run  8: pct= -4.57
@@ -70,6 +72,8 @@ itself to become ~40% faster. It became 3% faster. **The claimed number exceeds
 the theoretical ceiling by roughly an order of magnitude.** This is not a noise
 argument — it is an arithmetic contradiction, and it is the strongest single
 piece of evidence in this audit.
+
+![writeRow cost share and the resulting ceiling](img/02-ceiling.png)
 
 (The share figures are, if anything, generous: the hollowed version pushes a
 number rather than an object, so it also skips downstream retention and GC.)
